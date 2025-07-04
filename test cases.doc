@@ -1,0 +1,142 @@
+Test Scenario: List Products
+Steps: Call GET http://localhost:5000/api/products
+Expected result: Receive all products with name and price
+Test Input: None (GET request)
+Test Output:
+[
+  {
+    "_id": "1",
+    "name": "A",
+    "price": 30
+  },
+  {
+    "_id": "2",
+    "name": "B",
+    "price": 20
+  },
+  {
+    "_id": "3",
+    "name": "C",
+    "price": 50
+  },
+  {
+    "_id": "4",
+    "name": "D",
+    "price": 15
+  }
+]
+
+
+Test Scenario: Add One Item to Cart
+Steps: Call POST http://localhost:5000/api/cart/add with { "productName": "A" }
+Expected result: Product A added to cart
+Test Input:
+{
+  "productName": "A"
+}
+Test Output:
+{
+  "message": "A added to cart"
+}
+
+
+Test Scenario: Add Multiple Same Items
+Steps: Add A three times via POST http://localhost:5000/api/cart/add
+Expected result: Cart contains 3 items of A, discount is applied
+Test Input: Repeat:
+{
+  "productName": "A"
+}
+Test Output (GET http://localhost:5000/api/cart):
+{
+  "items": [
+    {
+      "product": "A",
+      "quantity": 3,
+      "price": 85,
+      "discount": 5
+    }
+  ],
+  "total": 85,
+  "totalDiscount": 5
+}
+
+
+Test Scenario: Add Multiple Different Items
+Steps: Add 1 A, 1 B, 1 C
+Expected result: Cart shows all items with correct pricing
+Test Input:
+{ "productName": "A" }
+{ "productName": "B" }
+{ "productName": "C" }
+Test Output (GET http://localhost:5000/api/cart):
+{
+  "items": [
+    { "product": "A", "quantity": 1, "price": 30, "discount": 0 },
+    { "product": "B", "quantity": 1, "price": 20, "discount": 0 },
+    { "product": "C", "quantity": 1, "price": 50, "discount": 0 }
+  ],
+  "total": 100,
+  "totalDiscount": 0
+}
+
+
+
+Test Scenario: Delete Item from Cart
+Steps: Call POST http://localhost:5000/api/cart/delete with productName: "A"
+Expected result: Reduces quantity by 1 or removes item if quantity = 1
+Test Input:
+{
+  "productName": "A"
+}
+Test Output:
+{
+  "message": "A removed from cart"
+}
+
+
+Test Scenario: Apply Rs 20 Basket Discount
+Steps: Add items so that subtotal > Rs 150 (e.g. A x3 = 85, B x2 = 35, C = 50)
+Expected result: Basket receives Rs 20 additional discount
+Test Input(change the product name everytime):
+  { "productName": "A" },
+  { "productName": "A" },
+  { "productName": "A" },
+  { "productName": "B" },
+  { "productName": "B" },
+  { "productName": "C" }
+Test Output:
+{
+  "items": [
+    { "product": "A", "quantity": 3, "price": 85, "discount": 5 },
+    { "product": "B", "quantity": 2, "price": 35, "discount": 5 },
+    { "product": "C", "quantity": 1, "price": 50, "discount": 0 }
+  ],
+  "totalBeforeDiscount": 180,
+  "totalDiscount": 30
+  "total": 150
+}
+
+
+Test Scenario: Clear Cart
+Steps: Call POST http://localhost:5000/api/cart/clear
+Expected result: Empties the cart
+Test Input: None
+Test Output:
+{
+  "message": "Cart cleared"
+}
+
+
+
+Test Scenario: Invalid Product Name
+Steps: Call POST http://localhost:5000/api/cart/add with { "productName": "X" }
+Expected result: Returns 404 product not found
+Test Input:
+{
+  "productName": "X"
+}
+Test Output:
+{
+  "error": "Product not found"
+}

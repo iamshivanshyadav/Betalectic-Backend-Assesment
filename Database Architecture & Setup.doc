@@ -1,0 +1,29 @@
+Database Used: MongoDB
+
+I have used MongoDB because:
+
+Document based - flexible for cart data.
+
+No strict schema migration needed (can evolve easily).
+
+Fast prototyping and easy data modeling.
+
+| Collection | Fields                                                              | Description                      |
+| ---------- | ------------------------------------------------------------------- | -------------------------------- |
+| `products` | `_id`, `name` (string, unique), `price` (number)                    | Stores products info (A,B,C,D).  |
+| `carts`    | `_id`, `items` (array of `{ product: ObjectId, quantity: number }`) | Single cart storing items & qty. |
+
+
+Data Relations:
+carts.items.product references _id from products collection.
+
+Quantity per product stored as quantity.
+
+Prices stored in products and discounts applied dynamically in code.
+
+Migrations & Setup on New Machine:
+Since MongoDB is schema-less, migrations are simple:
+
+Step 1: Setup MongoDB instance and configure .env MONGO_URI.
+
+Step 2: Run seed script to insert products (npm run seed).

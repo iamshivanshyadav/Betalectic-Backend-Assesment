@@ -1,0 +1,100 @@
+{
+    "info": {
+      "name": "Checkout System API",
+      "description": "Postman collection for Checkout system cart APIs",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "List Products",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "{{baseUrl}}/api/products",
+            "host": ["{{baseUrl}}"],
+            "path": ["api", "products"]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Add Item to Cart",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"productName\": \"A\"\n}"
+          },
+          "url": {
+            "raw": "{{baseUrl}}/api/cart/add",
+            "host": ["{{baseUrl}}"],
+            "path": ["api", "cart", "add"]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Delete Item from Cart",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"productName\": \"A\"\n}"
+          },
+          "url": {
+            "raw": "{{baseUrl}}/api/cart/delete",
+            "host": ["{{baseUrl}}"],
+            "path": ["api", "cart", "delete"]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Get Cart",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "{{baseUrl}}/api/cart",
+            "host": ["{{baseUrl}}"],
+            "path": ["api", "cart"]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Clear Cart",
+        "request": {
+          "method": "POST",
+          "header": [],
+          "url": {
+            "raw": "{{baseUrl}}/api/cart/clear",
+            "host": ["{{baseUrl}}"],
+            "path": ["api", "cart", "clear"]
+          }
+        },
+        "response": []
+      }
+    ],
+    "variable": [
+      {
+        "key": "baseUrl",
+        "value": "http://localhost:5000",
+        "type": "string"
+      }
+    ]
+  }
+  
